@@ -1,0 +1,26 @@
+             // number of alphabets
+(
+)
+{
+}
+=
+             //number of states
+start
+LPARENS
+RPARENS
+LBRACE
+RBRACE
+BECOMES
+start
+            //number of end states
+LPARENS
+RPARENS
+LBRACE
+RBRACE
+BECOMES
+            // number of transitions
+start ( LPARENS
+start ) RPARENS
+start { LBRACE
+start } RBRACE
+start = BECOMES

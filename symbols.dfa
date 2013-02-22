@@ -1,0 +1,105 @@
+             18
+(
+)
+{
+}
+=
+!
+<
+>
++
+-
+*
+/
+%
+,
+;
+[
+]
+&
+             23
+start
+LPARENS
+RPARENS
+LBRACE
+RBRACE
+BECOMES
+EQ
+NE
+BANG
+LT
+GT
+LE
+GE
+PLUS
+MINUS
+STAR
+SLASH
+PCT
+COMMA
+SEMI
+LBRACK
+RBRACK
+AMP
+start
+            21
+LPARENS
+RPARENS
+LBRACE
+RBRACE
+BECOMES
+EQ
+NE
+LT
+GT
+LE
+GE
+PLUS
+MINUS
+STAR
+SLASH
+PCT
+COMMA
+SEMI
+LBRACK
+RBRACK
+AMP
+            22
+start ( LPARENS
+start ) RPARENS
+start { LBRACE
+start } RBRACE
+start = BECOMES
+BECOMES = EQ
+start < LT
+LT = LE
+start > GT
+GT = GE
+start ! BANG
+BANG = NE
+start + PLUS
+start - MINUS
+start * STAR
+start / SLASH
+start % PCT
+start , COMMA
+start ; SEMI
+start [ LBRACK
+start ] RBRACK
+start & AMP
+= =
+! =
+<
+>
+< =
+> =
++
+-
+*
+/
+%
+,
+;
+[
+]
+&

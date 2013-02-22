@@ -1,0 +1,28 @@
+! =
+= =
+<
+>
+< =
+> =
++
+-
+*
+/
+%
+,
+;
+[
+]
+&
+(
+)
+{
+}
+r e t u r n
+i f
+e l s e
+w h i l e
+p r i n t l n
+w a i n
+=
+i n t

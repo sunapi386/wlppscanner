@@ -1,0 +1,44 @@
+             10
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+            3        
+start
+ZERO
+NUM
+start
+            2
+NUM
+ZERO
+            20
+start 0 ZERO
+start 1 NUM
+start 2 NUM
+start 3 NUM
+start 4 NUM
+start 5 NUM
+start 6 NUM
+start 7 NUM
+start 8 NUM
+start 9 NUM
+NUM 0 NUM
+NUM 1 NUM
+NUM 2 NUM
+NUM 3 NUM
+NUM 4 NUM
+NUM 5 NUM
+NUM 6 NUM
+NUM 7 NUM
+NUM 8 NUM
+NUM 9 NUM
+0 0 0
+0 1 0
+1 0 0
+1 1 0
