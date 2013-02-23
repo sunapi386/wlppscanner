@@ -9,7 +9,7 @@ import string
 Q = '"'
 com = ","
 pre = "ST_"
-keywords = ["WHILE", "WAIN", "INT", "IF", "ELSE", "PRINTLN", "NULL", "NEW", "DELETE"]
+keywords = ["DELETE","ELSE","IF","INT","PRINTLN","NULL","NEW","WAIN","WHILE"]
 src = "ST_START,"
 dst = "ST_DOT,"
 via = '".",'
@@ -20,17 +20,116 @@ sy = ["(", ")", "{", "}", "[", "]", "==", "!=",
 na = ["LPAREN", "RPAREN", "LBRACE", "RBRACE", "LBRACK", "RBRACK", "EQ", "NE",
         "LT", "GT", "LE", "GE", "PLUS", "MINUS", "STAR", "SLASH",
         "PCT", "COMMA", "SEMI", "AMP"]
+er = "NULLadefhilnprstuw"
+letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
-def printline (src,dst,via):
+
+def printline (src,via,dst):
     print( "setT( {0:15}{1:16}{2:15});".format(pre+src+com,Q+via+Q+com,pre+dst) )
+
+def printline_noquote (src,dst,via):
+    print( "setT( {0:15}{1:16}{2:15});".format(pre+src+com,via+com,pre+dst) )
+
+
+def returnTransitions (word):
+    cur = ""
+    for i in range( 0, word.__len__()-1):
+        cur += word[i]
+        src = cur.upper()
+        dst = "sans_" + word[i+1] + " digits"
+        via = "ID"
+        printline_noquote (src, via, dst)
+#    printline_noquote (word.upper(),"ID", "letters digits")
+
+#returnTransitions ("return")
+
+def superReturnTransitions (somelist):
+    for i in range (0, somelist.__len__()):
+        returnTransitions (somelist[i])
+
+#superReturnTransitions (kw)
+#setT( ST_W,          sans_a digits,  ST_ID          );
+#setT( ST_WA,         sans_i digits,  ST_ID          );
+#setT( ST_WAI,        sans_n digits,  ST_ID          );
+#setT( ST_I,          sans_n digits,  ST_ID          );
+#setT( ST_IN,         sans_t digits,  ST_ID          );
+#setT( ST_I,          sans_f digits,  ST_ID          );
+#setT( ST_E,          sans_l digits,  ST_ID          );
+#setT( ST_EL,         sans_s digits,  ST_ID          );
+#setT( ST_ELS,        sans_e digits,  ST_ID          );
+#setT( ST_W,          sans_h digits,  ST_ID          );
+#setT( ST_WH,         sans_i digits,  ST_ID          );
+#setT( ST_WHI,        sans_l digits,  ST_ID          );
+#setT( ST_WHIL,       sans_e digits,  ST_ID          );
+#setT( ST_P,          sans_r digits,  ST_ID          );
+#setT( ST_PR,         sans_i digits,  ST_ID          );
+#setT( ST_PRI,        sans_n digits,  ST_ID          );
+#setT( ST_PRIN,       sans_t digits,  ST_ID          );
+#setT( ST_PRINT,      sans_l digits,  ST_ID          );
+#setT( ST_PRINTL,     sans_n digits,  ST_ID          );
+#setT( ST_R,          sans_e digits,  ST_ID          );
+#setT( ST_RE,         sans_t digits,  ST_ID          );
+#setT( ST_RET,        sans_u digits,  ST_ID          );
+#setT( ST_RETU,       sans_r digits,  ST_ID          );
+#setT( ST_RETUR,      sans_n digits,  ST_ID          );
+#setT( ST_N,          sans_U digits,  ST_ID          );
+#setT( ST_Nu,         sans_L digits,  ST_ID          );
+#setT( ST_NuL,        sans_L digits,  ST_ID          );
+#setT( ST_N,          sans_e digits,  ST_ID          );
+#setT( ST_Ne,         sans_w digits,  ST_ID          );
+#setT( ST_D,          sans_e digits,  ST_ID          );
+#setT( ST_DE,         sans_l digits,  ST_ID          );
+#setT( ST_DEL,        sans_e digits,  ST_ID          );
+#setT( ST_DELE,       sans_t digits,  ST_ID          );
+#setT( ST_DELET,      sans_e digits,  ST_ID          );
+
+def filterL (string):
+    for i in range (0, string.__len__()):
+        line = letters
+        print("#define sans_" + string[i] + '      "'+ line.translate( None, string[i]) + '"')
+
+#filterL (er)
+
+
+def printList (klist):
+    toprint = ""
+    for i in range (0, klist.__len__()):
+        toprint += klist[i]
+    print (toprint)
+
+#printList (kw)
+#printList (sy)
 
 def createNode (src, word):
     via = ""
     dst = ""
+    frm = ""
     for i in range (0, word.__len__()):
+        if (i == 0):
+            frm = src
+        else:
+            frm = dst
         dst += word[i]
         via = word[i]
-        printline (src, dst, via)
+        printline (frm, dst, via)
+
+#setT( ST_DE,         letters digits, ST_ID          );
+def circularRef (src, word):
+    via = "letters digits"
+    dst = "ID"
+    frm = ""
+    for i in range (0, word.__len__()):
+        if (i==0):
+            frm = src
+        else:
+            frm = word[0:i]
+        print( "setT( {0:15}{1:16}{2:15});".format(pre+frm+com,via+com,pre+dst) )
+#circularRef ("START", "START")
+
+def generateCirc (klist):
+    for i in range (0, klist.__len__()):
+        circularRef ("START", klist[i])
+#generateCirc (keywords)
 
 def generateKeywords (klist):
     for i in range (0, klist.__len__()):
@@ -47,9 +146,11 @@ def promptTupleInput (size):
         t.append(inp)
     print (t)
 
-promptTupleInput(4)
-#setT( ST_START,      start_lett,     ST_ID         );
 
+
+
+#promptTupleInput(10)
+#setT( ST_START,      start_lett,     ST_ID         );
 
 
 
@@ -57,7 +158,8 @@ promptTupleInput(4)
 #printline ("START", "LPAREN", "(")
 #createNode ("START","RETURN")
 
-    #generateKeywords (keywords)
+#generateKeywords ("RETURN")
+#createNode ("START", "RETURN")
 #setT( ST_START,      "W",            ST_W           );
 #setT( ST_START,      "H",            ST_WH          );
 #setT( ST_START,      "I",            ST_WHI         );

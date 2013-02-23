@@ -1,0 +1,30 @@
+   wain(int a, int b) {
+      while (a > b) {a = a - 1;}
+      return a;   // unhelpful comment about summing a and b
+   }
+
+int wain(int* array, int size) {
+    int* copy = NULL;
+    int i = 0;
+    int j = 0;
+    int t = 0;
+    int k = 0;
+    int sum = 0;
+
+    // make a copy
+    copy = new int[size];
+    i = 0;
+    while(i < size) {
+        sum = sum + *(array+i);
+        *(copy+i) = *(array+i);
+        i = i + 1;
+    }
+
+    // bubble sort
+    k = 0;
+    while(k < size) {
+        i = 0;
+        while(i < size-1) {
+            j = i + 1;
+            if( *(array+i) > *(array+j) ) {
+                t = *(array+i);
