@@ -258,6 +258,9 @@ State delta[ST_SPACE+1][256];
 #define sans_t      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrsuvwxyz"
 #define sans_u      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstvwxyz"
 #define sans_w      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz"
+#define sans_ah     "ABCDEFGHIJKLMNOPQRSTUVWXYZbcdefgijklmnopqrstuvwxyz"
+#define sans_nf     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdeghijklmopqrstuvwxyz"
+#define sans_Ue     "ABCDEFGHIJKLMNOPQRSTVWXYZabcdfghijklmnopqrstuvwxyz"
 
 void setT(State from, string chars, State to) {
     for(unsigned i = 0; i < chars.length(); i++ ) delta[from][chars[i]] = to;
@@ -341,19 +344,17 @@ void initT(){
     setT( ST_WHILE,      letters digits, ST_ID          );
 
 // reloop partial words to ID
-    setT( ST_W,          sans_a digits,  ST_ID          );
+    setT( ST_W,          sans_ah digits, ST_ID          );
     setT( ST_WA,         sans_i digits,  ST_ID          );
     setT( ST_WAI,        sans_n digits,  ST_ID          );
-    setT( ST_I,          sans_n digits,  ST_ID          );
+    setT( ST_I,          sans_nf digits, ST_ID          );
     setT( ST_IN,         sans_t digits,  ST_ID          );
-    setT( ST_I,          sans_f digits,  ST_ID          );
-    setT( ST_E,          sans_l digits,  ST_ID          );
-    setT( ST_EL,         sans_s digits,  ST_ID          );
-    setT( ST_ELS,        sans_e digits,  ST_ID          );
-    setT( ST_W,          sans_h digits,  ST_ID          );
     setT( ST_WH,         sans_i digits,  ST_ID          );
     setT( ST_WHI,        sans_l digits,  ST_ID          );
     setT( ST_WHIL,       sans_e digits,  ST_ID          );
+    setT( ST_E,          sans_l digits,  ST_ID          );
+    setT( ST_EL,         sans_s digits,  ST_ID          );
+    setT( ST_ELS,        sans_e digits,  ST_ID          );
     setT( ST_P,          sans_r digits,  ST_ID          );
     setT( ST_PR,         sans_i digits,  ST_ID          );
     setT( ST_PRI,        sans_n digits,  ST_ID          );
@@ -365,10 +366,10 @@ void initT(){
     setT( ST_RET,        sans_u digits,  ST_ID          );
     setT( ST_RETU,       sans_r digits,  ST_ID          );
     setT( ST_RETUR,      sans_n digits,  ST_ID          );
-    setT( ST_N,          sans_U digits,  ST_ID          );
+    
+    setT( ST_N,          sans_Ue digits,ST_ID          );
     setT( ST_Nu,         sans_L digits,  ST_ID          );
     setT( ST_NuL,        sans_L digits,  ST_ID          );
-    setT( ST_N,          sans_e digits,  ST_ID          );
     setT( ST_Ne,         sans_w digits,  ST_ID          );
     setT( ST_D,          sans_e digits,  ST_ID          );
     setT( ST_DE,         sans_l digits,  ST_ID          );
@@ -430,10 +431,10 @@ vector<Token> scan(string input){
 
 ////            cout << "state " << kindString(stateKinds[state]) << endl;
 ////            cout << "nextState " << kindString(stateKinds[nextState]) << endl;
-//            cerr << "currentItem: " << kindString(stateKinds[state]) << endl;
+//            cout << "currentItem: " << kindString(stateKinds[state]) << endl;
 //            if (zeroPrev ) {
-//                cerr << "zeroPrev" << endl;
-////                cerr << "ERROR read this after 0: " << input.substr(0, i) << endl;
+//                cout << "zeroPrev" << endl;
+////                cout << "ERROR read this after 0: " << input.substr(0, i) << endl;
 ////                break;
 //            }
 //            if(state == ST_ZERO) {
@@ -488,7 +489,7 @@ int Token::toInt() {
 string kS[] = {
     "ID",
     "NUM",
-    "ZERO",
+    "NUM",
     "LPAREN",
     "RPAREN",
     "LBRACE",
@@ -562,16 +563,18 @@ int main() {
         for(int line=0; line < tokLines.size(); line++ ) {
             for(int j=0; j < tokLines[line].size(); j++ ) {
                 Token token = tokLines[line][j];
-                cerr << kindString(token.kind) << " "
+                if(token.kind == COMMENT) {
+//                    cout << token.toInt();
+//                    line += 1;
+                    continue;
+                }
+                cout << kindString(token.kind) << " "
                     << token.lexeme;
-//                if(token.kind == NUM) {
-//                    cerr << token.toInt();
-//                }
-                cerr << endl;
+                cout << endl;
             }
         }
     } catch(string msg) {
-        cerr << msg << endl;
+        cout << msg << endl;
     }
 
     return 0;
