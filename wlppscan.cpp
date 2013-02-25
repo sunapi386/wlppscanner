@@ -444,6 +444,10 @@ vector<Token> scan(string input){
 //            }
 
             if(nextState == ST_INVALID) {
+                cout << "TEST: invalid next state " << input.substr(0, i) << endl;
+                if(stateKinds[state] == ID) {
+                    throw("ERROR in lexing after reading " + input.substr(0, i));
+                }
                 // no more transitions possible
                 if(stateKinds[state] == INVALID) {
                     throw("ERROR in lexing after reading " + input.substr(0, i));
@@ -574,7 +578,7 @@ int main() {
             }
         }
     } catch(string msg) {
-        cout << msg << endl;
+        cerr << msg << endl;
     }
 
     return 0;
