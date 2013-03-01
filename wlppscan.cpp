@@ -81,6 +81,7 @@ vector<Token> scan(string input);
 enum State {
     ST_INVALID,
     ST_START,
+    ST_STOP,
     ST_R,
     ST_RE,
     ST_RET,
@@ -160,6 +161,7 @@ enum State {
 Kind stateKinds[] = {
     INVALID,			//    ST_INVALID
     INVALID,			//    ST_START
+    INVALID,            //    ST_STOP          
     ID,     			//    ST_R
     ID,     			//    ST_RE
     ID,     			//    ST_RET
@@ -283,11 +285,11 @@ void initT(){
     setT( ST_START,      whitespace,     ST_SPACE       );
     setT( ST_SPACE,      whitespace,     ST_SPACE       );
     setT( ST_START,      firstStart,     ST_ID          );
-    setT( ST_ID,         letters digits, ST_ID          );
     setT( ST_START,      oneToNine,      ST_NUM         );
-    setT( ST_NUM,        digits,         ST_NUM         );
     setT( ST_START,      "0",            ST_ZERO        );
-    setT( ST_ZERO,       letters digits, ST_INVALID     );
+    setT( ST_ID,         letters digits, ST_ID          );
+    setT( ST_NUM,        digits,         ST_NUM         );
+    setT( ST_ZERO,       letters digits, ST_STOP        );
 
 // keywords
     setT( ST_START,      "r",            ST_R           );
@@ -442,12 +444,12 @@ vector<Token> scan(string input){
 //            } else {
 //                zeroPrev = false;
 //            }
+            if(state == ST_STOP) {
+                throw("ERROR ZERO can't be followed by " + input.substr(0, i));
+            }
 
             if(nextState == ST_INVALID) {
-                cout << "TEST: invalid next state " << input.substr(0, i) << endl;
-                if(stateKinds[state] == ID) {
-                    throw("ERROR in lexing after reading " + input.substr(0, i));
-                }
+//                cout << "TEST: invalid next state " << input.substr(0, i) << endl;
                 // no more transitions possible
                 if(stateKinds[state] == INVALID) {
                     throw("ERROR in lexing after reading " + input.substr(0, i));
